@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { handleChange } from "../utils/handleChange";
 import { toast } from "react-toastify";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./components.css";
 import { useRegisterMutation } from "../redux/services/authApi";
 
@@ -14,6 +14,7 @@ const RegisterForm = () => {
   });
 
   const [register] = useRegisterMutation();
+  const navigate = useNavigate();
 
   const handlerValidation = () => {
     const { username, password, confirmPassword } = userInputValue;
@@ -33,14 +34,17 @@ const RegisterForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (handlerValidation()) {
-      const { username, email, password, confirmPassword } = userInputValue;
       try {
         const { data, error } = await register(userInputValue);
         console.log(data);
-        console.log(error);
-        // if (data.success) {
-        //   console.log(data);
-        // }
+        if (data?.success) {
+          Cookie.set("user", JSON.stringify(data.user), { expires: 10 });
+          Cookie.set("token", data.token, { expires: 10 });
+          navigate("/");
+          toast.success(data.message);
+        } else {
+          toast.error(error.data.error);
+        }
       } catch (error) {
         console.error(error);
       }

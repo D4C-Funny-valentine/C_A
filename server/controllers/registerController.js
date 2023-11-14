@@ -8,21 +8,25 @@ const register = async (req, res) => {
     const { username, email, password } = req.body;
     // check all credentials are filled
     if (!(username && email && password)) {
-      return res
-        .status(400)
-        .json({ error: "User name, email and password are required" });
+      return res.status(400).json({
+        success: false,
+        error: "User name, email and password are required",
+      });
     }
 
     // check the email is valid
     const isValidEmail = await validation(email);
     if (!isValidEmail) {
-      return res.status(400).json({ error: "Please enter a valid email" });
+      return res
+        .status(400)
+        .json({ success: false, error: "Please enter a valid email" });
     }
 
     // check if username is taken
     const isUsernameTaken = await User.findOne({ username });
     if (isUsernameTaken) {
       return res.status(409).json({
+        success: false,
         error:
           "Sorry, the username is already in use. Please choose a different one.",
       });
@@ -32,6 +36,7 @@ const register = async (req, res) => {
     const isEmailTaken = await User.findOne({ email });
     if (isEmailTaken) {
       return res.status(409).json({
+        success: false,
         error:
           "Sorry, the email is already in use. Please choose a different one.",
       });
@@ -56,14 +61,25 @@ const register = async (req, res) => {
 
     const result = await newUser.save(); // save user
     if (result) {
-      const { password, ...userDetail } = result._doc;
-      return res.status(201).json({ success: true, user: { ...userDetail } });
+      const { password, token, ...userDetail } = result._doc;
+      return res.status(201).json({
+        success: true,
+        user: { ...userDetail },
+        token,
+        message: `Your account (${username}) has been successfully created.`,
+      });
+    } else {
+      return res.status(500).json({
+        success: false,
+        message: "Create account failed. Please try again.",
+      });
     }
   } catch (error) {
     console.error("Error during registration:", error);
-    return res
-      .status(500)
-      .json({ error: "Internal server error. Please try again later." });
+    return res.status(500).json({
+      success: false,
+      error: "Internal server error. Please try again later.",
+    });
   }
 };
 
