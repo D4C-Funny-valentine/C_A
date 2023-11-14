@@ -1,0 +1,7 @@
+input {
+  @apply bg-transparent rounded-md border-2 border-light-blue focus:border-solid-purple placeholder:text-gray-500 text-white outline-none w-full p-4;
+}
+
+.btn {
+  @apply text-white bg-solid-purple px-8 py-4 rounded-md font-bold;
+}
