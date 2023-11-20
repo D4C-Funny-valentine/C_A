@@ -101,7 +101,7 @@ const MessageContainer = ({
                           ? "opacity-100"
                           : "opacity-0"
                       } duration-300`}
-                      onClick={() => handleDeleteMessage(message.id)}
+                      onDoubleClick={() => handleDeleteMessage(message.id)}
                     >
                       <p className="text-white text-sm">Delete</p>
                     </div>

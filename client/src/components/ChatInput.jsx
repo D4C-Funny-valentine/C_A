@@ -35,7 +35,6 @@ const ChatInput = ({ sendMessage, socket, chattingUser }) => {
       if (socket.current) {
         socket.current.on("typing", (data) => {
           setIsTyping(data);
-          console.log(data);
         });
       }
     }
@@ -52,7 +51,7 @@ const ChatInput = ({ sendMessage, socket, chattingUser }) => {
   return (
     <div className="flex w-full mt-auto flex-col">
       <div className="text-white text-sm">
-        {isTyping ? <h3>typing ...</h3> : null}
+        {isTyping ? <h3 className="ml-2">typing ...</h3> : null}
       </div>
       <div className="flex h-full w-full items-center justify-center">
         <div className="w-[5%] flex justify-center items-center relative">
