@@ -21,30 +21,46 @@ const ChatInput = ({ sendMessage, socket, chattingUser }) => {
     setEmojiHideShow(false);
   };
 
-  const sendMessageHandler = (e) => {
-    e.preventDefault();
-    if (inputMessage.length > 0) {
-      sendMessage(inputMessage);
-    }
-    setInputMessage("");
-  };
-
   // typing check
   useEffect(() => {
-    if (inputMessage.length > 0) {
-      if (socket.current) {
-        socket.current.on("typing", (data) => {
-          setIsTyping(data);
-        });
+    const handleTyping = (data) => {
+      if (data) {
+        setIsTyping(data);
+      } else {
+        setIsTyping(null);
       }
+    };
+
+    if (socket.current) {
+      socket.current.on("typing", handleTyping);
     }
-  }, [inputMessage]);
+
+    return () => {
+      // Clean up the event listener to avoid memory leaks
+      if (socket.current) {
+        socket.current.off("typing", handleTyping);
+      }
+    };
+  }, [socket]);
 
   const inputTypingHandler = (e) => {
-    if (e.target.value.length > 0) {
+    const message = e.target.value;
+
+    if (message.length > 0) {
       socket.current.emit("isTyping", { to: chattingUser._id, typing: true });
     } else {
       socket.current.emit("isTyping", { to: chattingUser._id, typing: false });
+    }
+  };
+
+  const sendMessageHandler = (e) => {
+    e.preventDefault();
+
+    if (inputMessage.length > 0) {
+      sendMessage(inputMessage);
+      setInputMessage("");
+      // Clear typing state when a message is sent
+      setIsTyping(null);
     }
   };
 
@@ -54,7 +70,7 @@ const ChatInput = ({ sendMessage, socket, chattingUser }) => {
         {isTyping ? <h3 className="ml-2">typing ...</h3> : null}
       </div>
       <div className="flex h-full w-full items-center justify-center">
-        <div className="w-[5%] flex justify-center items-center relative">
+        <div className="w-[13%] sm:w-[13%] md:w-[10%] lg:w-[5%] flex justify-center items-center relative">
           <button onClick={handleEmojiPickerHideShow}>
             <BsEmojiSmileFill size={20} color="#ffff00c8" />
           </button>
@@ -86,7 +102,7 @@ const ChatInput = ({ sendMessage, socket, chattingUser }) => {
               className="outline-none border-0 rounded-none bg-transparent px-3 py-2 text-white break-words whitespace-pre-wrap "
             />
           </div>
-          <div className="w-[5%]">
+          <div className="w-[15%] sm:w-[15%] md:w-[10%] lg:w-[5%]">
             <button
               type="submit"
               className="bg-solid-purple p-2 w-full h-full rounded-full flex justify-center items-center"
@@ -95,7 +111,7 @@ const ChatInput = ({ sendMessage, socket, chattingUser }) => {
             </button>
           </div>
         </form>
-        <div className="w-[5%]">
+        <div className="w-[15%] sm:w-[15%] md:w-[10%] lg:w-[5%]">
           <button className="w-full h-full flex justify-center items-center">
             <FaMicrophoneAlt size={20} color="#997af0" />
           </button>

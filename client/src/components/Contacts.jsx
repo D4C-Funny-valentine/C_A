@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Logo from "../assets/logo.svg";
 import Logout from "./Logout";
+import ContactCard from "./ContactCard";
 
 const Contacts = ({ currentUser, userContacts, handleCurrentChatUser }) => {
   const [currentSelectedContact, setCurrentSelectedContact] = useState(null);
@@ -26,28 +27,12 @@ const Contacts = ({ currentUser, userContacts, handleCurrentChatUser }) => {
           {currentUser && userContacts.length > 0 && (
             <div className="flex flex-col gap-4">
               {userContacts.map((contact, index) => (
-                <div
-                  className={`${
-                    index === currentSelectedContact
-                      ? "bg-solid-purple"
-                      : "bg-[#ffffff39]"
-                  } px-2 py-3 rounded-md flex items-center gap-4 mx-2 cursor-pointer duration-300`}
-                  key={contact._id}
-                  onClick={() => handleChangeCurrentChat(index, contact)}
-                >
-                  <div className="">
-                    <img
-                      src={`data:image/svg+xml;base64,${contact.avatarImage}`}
-                      alt="avatar"
-                      className="w-10 h-10 object-contain"
-                    />
-                  </div>
-                  <div className="">
-                    <h3 className="text-white font-semibold capitalize">
-                      {contact.username}
-                    </h3>
-                  </div>
-                </div>
+                <ContactCard
+                  contact={contact}
+                  index={index}
+                  handleChangeCurrentChat={handleChangeCurrentChat}
+                  currentSelectedContact={currentSelectedContact}
+                />
               ))}
             </div>
           )}

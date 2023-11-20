@@ -6,7 +6,9 @@ import Loader from "../components/Loader";
 import "./page.css";
 import ChatWelcome from "../components/ChatWelcome";
 import ChatContainer from "../components/ChatContainer";
+import { useDisclosure } from "@mantine/hooks";
 import io from "socket.io-client";
+import ContactDrawer from "../components/ContactDrawer";
 
 const host = "http://localhost:5500";
 
@@ -18,6 +20,8 @@ const Chat = () => {
   );
   const [selectedCurrentChatUser, setSelectedCurrentChatUser] = useState(null);
   const [users, setUsers] = useState([]);
+  const [opened, { open, close }] = useDisclosure(false);
+  const [position, setPosition] = useState("left");
 
   const navigate = useNavigate();
 
@@ -52,7 +56,7 @@ const Chat = () => {
     } catch (error) {
       console.log(error);
     }
-  }, [currentUser]);
+  }, [currentUser, socket.current]);
 
   const handleCurrentChatUser = (contact) => {
     setSelectedCurrentChatUser(contact);
@@ -72,16 +76,35 @@ const Chat = () => {
         {!selectedCurrentChatUser ? (
           <ChatWelcome
             currentUser={currentUser}
-            selectedCurrentChatUser={selectedCurrentChatUser}
+            userContacts={users}
+            open={open}
+            setPosition={setPosition}
+            handleCurrentChatUser={handleCurrentChatUser}
+            chattingUser={selectedCurrentChatUser}
           />
         ) : (
           <ChatContainer
             currentUser={currentUser}
+            userContacts={users}
             chattingUser={selectedCurrentChatUser}
+            handleCurrentChatUser={handleCurrentChatUser}
             socket={socket}
+            opened={opened}
+            open={open}
+            position={position}
+            close={close}
+            setPosition={setPosition}
           />
         )}
       </div>
+      <ContactDrawer
+        opened={opened}
+        close={close}
+        currentUser={currentUser}
+        userContacts={users}
+        position={position}
+        handleCurrentChatUser={handleCurrentChatUser}
+      />
     </div>
   );
 };

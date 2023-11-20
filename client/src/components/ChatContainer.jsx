@@ -1,10 +1,22 @@
 import React, { useEffect, useState } from "react";
-import Logout from "./Logout";
+
 import ChatInput from "./ChatInput";
 import MessageContainer from "./MessageContainer";
 import { useAddMessageMutation } from "../redux/services/userApi";
+import MessageHeader from "./MessageHeader";
 
-const ChatContainer = ({ currentUser, chattingUser, socket }) => {
+const ChatContainer = ({
+  currentUser,
+  chattingUser,
+  socket,
+  userContacts,
+  handleCurrentChatUser,
+  opened,
+  open,
+  close,
+  position,
+  setPosition,
+}) => {
   const [addMessage] = useAddMessageMutation();
   const [messages, setMessages] = useState([]);
   const [receive, setReceive] = useState(null);
@@ -58,23 +70,12 @@ const ChatContainer = ({ currentUser, chattingUser, socket }) => {
     <div className="flex w-full h-full">
       {chattingUser && (
         <div className="pt-4 w-full flex flex-col">
-          <div className="flex w-full justify-between px-4 mb-auto">
-            <div className="flex justify-center items-center gap-3">
-              <div className="">
-                <img
-                  src={`data:image/svg+xml;base64,${chattingUser.avatarImage}`}
-                  alt="avatar"
-                  className="w-14 h-14 object-contain"
-                />
-              </div>
-              <div className="">
-                <h3 className="text-xl text-white font-semibold capitalize">
-                  {chattingUser.username}
-                </h3>
-              </div>
-            </div>
-            <Logout />
-          </div>
+          <MessageHeader
+            chattingUser={chattingUser}
+            open={open}
+            currentUser={currentUser}
+            setPosition={setPosition}
+          />
           <MessageContainer
             chattingUser={chattingUser}
             currentUser={currentUser}

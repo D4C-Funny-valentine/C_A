@@ -43,11 +43,13 @@ io.on("connection", (socket) => {
     const sendUserSocketId = onlineUsers.get(data.to);
     if (sendUserSocketId) {
       socket.to(sendUserSocketId).emit("receive-message", data.message);
+
+      // When a message is sent, automatically set typing to false
+      socket.to(sendUserSocketId).emit("typing", false);
     }
   });
 
   socket.on("isTyping", (data) => {
-    console.log(data);
     const sendUserSocketId = onlineUsers.get(data.to);
     socket.to(sendUserSocketId).emit("typing", data.typing);
   });

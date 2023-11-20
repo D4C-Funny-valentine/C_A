@@ -5,7 +5,6 @@ import {
 } from "../redux/services/userApi";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import "./chat.css";
-import Modal from "./Modal";
 
 const MessageContainer = ({
   chattingUser,
@@ -31,7 +30,7 @@ const MessageContainer = ({
       }
     };
     fetchMessages();
-  }, [chattingUser]);
+  }, [chattingUser, currentUser]);
 
   const scrollRef = useRef();
 
@@ -66,7 +65,10 @@ const MessageContainer = ({
 
   return (
     <div className="bg-dark-blue sm:bg-black/70 md:bg-black/70 lg:bg-black/70 w-full h-full overflow-scroll overflow-x-hidden overflow-y-scroll chat-container-scroll relative">
-      <div className="h-full w-full" ref={scrollRef}>
+      <div
+        className="w-full flex justify-end items-end flex-col mt-auto"
+        ref={scrollRef}
+      >
         {messages.map((message) => (
           <div className="w-full" key={message.id} ref={scrollRef}>
             <div
@@ -101,7 +103,7 @@ const MessageContainer = ({
                           ? "opacity-100"
                           : "opacity-0"
                       } duration-300`}
-                      onDoubleClick={() => handleDeleteMessage(message.id)}
+                      onClick={() => handleDeleteMessage(message.id)}
                     >
                       <p className="text-white text-sm">Delete</p>
                     </div>
@@ -128,7 +130,6 @@ const MessageContainer = ({
         ))}
         <div className="" ref={scrollRef}></div>
       </div>
-      <Modal />
     </div>
   );
 };

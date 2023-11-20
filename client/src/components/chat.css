@@ -70,3 +70,45 @@
 .delete-container:hover .dot-icon {
   opacity: 1;
 }
+
+/* drawer custom for mantine */
+.mantine-19pz3dh {
+  background-color: #080420 !important;
+}
+
+.mantine-1k9itrp {
+  color: white;
+  font-size: large;
+  font-weight: 600;
+}
+
+.mantine-Drawer-closeButton svg {
+  width: 2.5rem !important;
+  height: 2.5rem !important;
+}
+
+.mantine-Drawer-closeButton svg {
+  width: 2rem !important;
+  height: 2rem !important;
+}
+
+.mantine-1fholi4 {
+  color: white !important;
+}
+
+.mantine-1fholi4:hover {
+  background-color: transparent !important;
+  color: white !important;
+}
+
+.mantine-9d0559 {
+  background-color: #080420 !important;
+}
+
+.mantine-753b79 {
+  width: 0.1px !important;
+}
+
+.mantine-753b79:hover {
+  background-color: #9a86f300 !important;
+}

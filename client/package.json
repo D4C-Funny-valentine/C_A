@@ -10,6 +10,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@emotion/react": "^11.11.1",
+    "@mantine/core": "6.0.21",
+    "@mantine/hooks": "6.0.21",
     "@reduxjs/toolkit": "^1.9.7",
     "axios": "^1.6.1",
     "emoji-picker-react": "^4.5.15",
