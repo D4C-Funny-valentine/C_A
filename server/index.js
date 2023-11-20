@@ -24,7 +24,7 @@ const expressServer = app.listen(port, () => {
 
 const io = new Server(expressServer, {
   cors: {
-    origin: "*",
+    origin: "*" || "https://chat-app-pi-blush.vercel.app/",
     methods: ["GET", "POST", "DELETE"],
     credentials: true,
   },
