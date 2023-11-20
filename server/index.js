@@ -19,7 +19,7 @@ app.use("/api/auth", require("./routes/authRoute"));
 app.use("/api/chat", require("./routes/userRoute"));
 
 const expressServer = app.listen(port, () => {
-  console.log(`Server is running at http://localhost:${port}`);
+  console.log(`Server is running at Secret`);
 });
 
 const io = new Server(expressServer, {

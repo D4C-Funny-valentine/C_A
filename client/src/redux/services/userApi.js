@@ -1,6 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
-const host = "http://localhost:5500/api";
+const host =
+  "https://chat-0b8t.onrender.com/api" || "http://localhost:5500/api";
 
 export const userApi = createApi({
   reducerPath: "userApi",
