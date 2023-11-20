@@ -3,7 +3,6 @@ const express = require("express");
 const app = express();
 const port = process.env.PORT || 5000;
 const cors = require("cors");
-const mongoose = require("mongoose");
 const { Server } = require("socket.io");
 const connectDB = require("./config/connectDB");
 
@@ -26,7 +25,7 @@ const expressServer = app.listen(port, () => {
 const io = new Server(expressServer, {
   cors: {
     origin: "*",
-    methods: ["GET", "POST"],
+    methods: ["GET", "POST", "DELETE"],
     credentials: true,
   },
 });
