@@ -19,12 +19,11 @@ const LoginForm = () => {
     e.preventDefault();
     try {
       const { data, error } = await login(userInputValue);
-      console.log(data);
       if (data?.success) {
-        Cookies.set("user", JSON.stringify(data.user), { expires: 10 });
-        Cookies.set("token", data.token, { expires: 10 });
-        navigate("/");
-        toast.success(data.message);
+        localStorage.setItem("user", JSON.stringify(data?.user));
+        localStorage.setItem("token", data?.token);
+        navigate("/avatar");
+        toast.success(data?.message);
       } else {
         toast.error(error.data.error);
       }

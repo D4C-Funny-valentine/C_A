@@ -5,3 +5,13 @@
 .btn {
   @apply text-white bg-solid-purple px-8 py-4 rounded-md font-bold;
 }
+
+.contacts ::-webkit-scrollbar {
+  width: 0.2rem;
+}
+
+.contacts ::-webkit-scrollbar-thumb {
+  background-color: #ffffff39;
+  border-radius: 1rem;
+  width: 0.3rem;
+}

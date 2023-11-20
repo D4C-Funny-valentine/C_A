@@ -20,7 +20,7 @@ const login = async (req, res) => {
       return res.status(401).json({
         success: false,
         error:
-          "Invalid email or password. Please check your credentials and try again.",
+          "There is no account with that email. Please check your credentials and try again.",
       });
     }
 

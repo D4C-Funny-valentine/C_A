@@ -1,5 +1,5 @@
 import React from "react";
-import { ToastContainer } from "react-toastify";
+import { Slide, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const Toast = () => {
@@ -11,6 +11,7 @@ const Toast = () => {
       draggable
       pauseOnHover
       theme="dark"
+      transition={Slide}
     />
   );
 };

@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 import { Link, useNavigate } from "react-router-dom";
 import "./components.css";
 import { useRegisterMutation } from "../redux/services/authApi";
+import Cookies from "js-cookie";
 
 const RegisterForm = () => {
   const [userInputValue, setUserInputValue] = useState({
@@ -13,7 +14,7 @@ const RegisterForm = () => {
     confirmPassword: "",
   });
 
-  const [register] = useRegisterMutation();
+  const [register, isLoading] = useRegisterMutation();
   const navigate = useNavigate();
 
   const handlerValidation = () => {
@@ -38,9 +39,9 @@ const RegisterForm = () => {
         const { data, error } = await register(userInputValue);
         console.log(data);
         if (data?.success) {
-          Cookie.set("user", JSON.stringify(data.user), { expires: 10 });
-          Cookie.set("token", data.token, { expires: 10 });
-          navigate("/");
+          localStorage.setItem("user", JSON.stringify(data.user));
+          localStorage.setItem("token", data.token);
+          navigate("/avatar");
           toast.success(data.message);
         } else {
           toast.error(error.data.error);

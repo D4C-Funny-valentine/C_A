@@ -23,7 +23,28 @@ export const authApi = createApi({
       }),
       invalidatesTags: ["auth"],
     }),
+    avatar: builder.mutation({
+      query: ({ id, data }) => ({
+        method: "POST",
+        url: `/avatar/${id}`,
+        body: data,
+      }),
+      invalidatesTags: ["auth"],
+    }),
+    logout: builder.mutation({
+      query: (token) => ({
+        method: "POST",
+        url: "/logout",
+        headers: { Authorization: `Bearer ${token}` },
+      }),
+      invalidatesTags: ["auth"],
+    }),
   }),
 });
 
-export const { useRegisterMutation, useLoginMutation } = authApi;
+export const {
+  useRegisterMutation,
+  useLoginMutation,
+  useAvatarMutation,
+  useLogoutMutation,
+} = authApi;
