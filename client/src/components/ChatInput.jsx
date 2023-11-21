@@ -54,7 +54,7 @@ const ChatInput = ({ sendMessage, socket, chattingUser }) => {
   };
 
   const sendMessageHandler = (e) => {
-    // e.preventDefault();
+    e.preventDefault();
 
     if (inputMessage.length > 0) {
       sendMessage(inputMessage);
@@ -85,32 +85,30 @@ const ChatInput = ({ sendMessage, socket, chattingUser }) => {
             </div>
           )}
         </div>
-        <div
-          // onSubmit={sendMessageHandler}
-          className="flex w-full justify-between bg-[#ffffff39] rounded-full overflow-hidden"
-        >
-          <div className="w-full">
-            <input
-              type="text"
-              value={inputMessage}
-              onChange={(e) => {
-                setInputMessage(e.target.value);
-                inputTypingHandler(e);
-              }}
-              placeholder="Type message here"
-              className="outline-none border-0 w-full rounded-none bg-transparent px-3 py-2 text-white break-words whitespace-pre-wrap"
-            />
+        <form onSubmit={sendMessageHandler} className="w-full flex gap-2">
+          <div className="flex w-full justify-between bg-[#ffffff39] rounded-full overflow-hidden">
+            <div className="w-full">
+              <input
+                type="text"
+                value={inputMessage}
+                onChange={(e) => {
+                  setInputMessage(e.target.value);
+                  inputTypingHandler(e);
+                }}
+                placeholder="Type message here"
+                className="outline-none border-0 w-full rounded-none bg-transparent px-3 py-2 text-white break-words whitespace-pre-wrap"
+              />
+            </div>
           </div>
-        </div>
-        <div className="w-[15%] sm:w-[15%] md:w-[10%] lg:w-[5%]">
-          <button
-            onClick={() => sendMessageHandler()}
-            type="submit"
-            className="bg-solid-purple p-2 w-full h-full rounded-full flex justify-center items-center"
-          >
-            <IoMdSend size={18} color="white" />
-          </button>
-        </div>
+          <div className="w-[15%] sm:w-[15%] md:w-[10%] lg:w-[5%]">
+            <button
+              type="submit"
+              className="bg-solid-purple p-2 w-full h-full rounded-full flex justify-center items-center"
+            >
+              <IoMdSend size={18} color="white" />
+            </button>
+          </div>
+        </form>
         <div className="w-[15%] sm:w-[15%] md:w-[10%] lg:w-[5%]">
           <button className="w-full h-full flex justify-center items-center">
             <FaMicrophoneAlt size={20} color="#997af0" />

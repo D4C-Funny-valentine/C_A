@@ -9,12 +9,7 @@ const ChatContainer = ({
   currentUser,
   chattingUser,
   socket,
-  userContacts,
-  handleCurrentChatUser,
-  opened,
   open,
-  close,
-  position,
   setPosition,
 }) => {
   const [addMessage] = useAddMessageMutation();

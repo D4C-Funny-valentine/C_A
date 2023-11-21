@@ -66,7 +66,7 @@ const LoginForm = () => {
       >
         Login Account
       </button>
-      <div className="uppercase flex items-center justify-center gap-1">
+      <div className="uppercase flex items-center justify-center gap-1 text-sm sm:text-sm md:text-base lg:text-base">
         <span className="text-white font-semibold">don't have an account?</span>
         <span className="text-light-blue font-bold">
           <Link to={"/register"}>create</Link>

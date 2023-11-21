@@ -15,6 +15,7 @@ const Logout = () => {
         const userLogout = await logout(token);
         console.log(userLogout);
         if (userLogout.data?.success) {
+          console.log(token);
           localStorage.removeItem("token");
           localStorage.removeItem("user");
           toast.success(userLogout.data.message);
