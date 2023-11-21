@@ -15,7 +15,9 @@ const ContactCard = ({
       } px-2 py-3 rounded-md flex items-center gap-4 mx-2 cursor-pointer duration-300`}
       onClick={() => {
         handleChangeCurrentChat(index, contact);
-        showDrawerOnSM && drawerClose();
+        if (showDrawerOnSM) {
+          drawerClose();
+        }
       }}
     >
       <div className="">
