@@ -70,6 +70,7 @@ const ChatContainer = ({
             open={open}
             currentUser={currentUser}
             setPosition={setPosition}
+            socket={socket}
           />
           <MessageContainer
             chattingUser={chattingUser}
@@ -77,6 +78,7 @@ const ChatContainer = ({
             messages={messages}
             setMessages={setMessages}
             socket={socket}
+            receive={receive}
           />
           <ChatInput
             sendMessage={sendMessage}

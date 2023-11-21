@@ -11,11 +11,13 @@ const MessageContainer = ({
   currentUser,
   messages,
   setMessages,
+  receive,
 }) => {
   const [getAllMessages] = useGetAllMessagesMutation();
   const [deleteMessage] = useDeleteMessageMutation();
   const [showDeleteButton, setShowDeleteButton] = useState(false);
   const [deleteMessageId, setDeleteMessageId] = useState(null);
+  const [messageData, setMessageData] = useState(null);
 
   useEffect(() => {
     const fetchMessages = async () => {
@@ -25,12 +27,13 @@ const MessageContainer = ({
           to: chattingUser._id,
         });
         setMessages(data);
+        setMessageData(data);
       } catch (error) {
         console.log(error);
       }
     };
     fetchMessages();
-  }, [chattingUser, currentUser]);
+  }, [chattingUser, currentUser, receive, messages]);
 
   const scrollRef = useRef();
 
@@ -69,7 +72,7 @@ const MessageContainer = ({
         className="w-full flex justify-end items-end flex-col mt-auto"
         ref={scrollRef}
       >
-        {messages.map((message) => (
+        {messageData?.map((message) => (
           <div className="w-full" key={message.id} ref={scrollRef}>
             <div
               className={`message ${
