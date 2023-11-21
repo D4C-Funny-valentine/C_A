@@ -3,7 +3,6 @@ import WelcomeRobot from "../assets/robot.gif";
 import ContactCard from "./ContactCard";
 import Logo from "../assets/logo.svg";
 import { FaBars } from "react-icons/fa";
-import ContactDrawer from "./ContactDrawer";
 
 const ChatWelcome = ({
   currentUser,

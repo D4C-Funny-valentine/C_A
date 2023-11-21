@@ -10,7 +10,7 @@ import { useDisclosure } from "@mantine/hooks";
 import io from "socket.io-client";
 import ContactDrawer from "../components/ContactDrawer";
 
-const host = "http://localhost:5500";
+const host = "https://chat-0b8t.onrender.com/" ?? "http://localhost:5500";
 
 const Chat = () => {
   const socket = useRef();
@@ -33,6 +33,11 @@ const Chat = () => {
       socket.current.emit("sendUser", currentUser._id);
     }
     localStorage.setItem("user", JSON.stringify(currentUser));
+    return () => {
+      if (socket.current) {
+        socket.current.disconnect();
+      }
+    };
   }, [currentUser]);
 
   useEffect(() => {
