@@ -76,6 +76,7 @@ const ChatWelcome = ({
                   <div className="flex flex-col gap-4">
                     {userContacts.map((contact, index) => (
                       <ContactCard
+                        key={index}
                         contact={contact}
                         index={index}
                         handleChangeCurrentChat={handleChangeCurrentChat}

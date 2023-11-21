@@ -29,6 +29,7 @@ const Contacts = ({ currentUser, userContacts, handleCurrentChatUser }) => {
               {userContacts.map((contact, index) => (
                 <ContactCard
                   contact={contact}
+                  key={index}
                   index={index}
                   handleChangeCurrentChat={handleChangeCurrentChat}
                   currentSelectedContact={currentSelectedContact}
