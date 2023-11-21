@@ -10,7 +10,7 @@ import { useDisclosure } from "@mantine/hooks";
 import io from "socket.io-client";
 import ContactDrawer from "../components/ContactDrawer";
 
-const host = "https://chat-0b8t.onrender.com/" ?? "http://localhost:5500";
+const host = "https://chat-0b8t.onrender.com/";
 
 const Chat = () => {
   const socket = useRef();
