@@ -1,6 +1,6 @@
-# C_A Project
+# HarmonyTalk Project
 
-## This is user friendly C_A make with ReactJs & NodeJS
+## This is user friendly HarmonyTalk make with ReactJs & NodeJS
 
 ### To Start For Client
 
@@ -24,10 +24,10 @@
 
 ## Preview
 
-<img src="https://vercel.com/83af5dd7-6c3a-4698-9899-02d262cf5759"/>
+<img src="" alt="HarmonyTalk"/>
 
 ## Testing
 
-<a href="https://chat-app-pi-blush.vercel.app/" target="_blank">C_A Project 💬</a>
+<a href="https://chat-app-pi-blush.vercel.app/" target="_blank">HarmonyTalk 💬</a>
 
 Hope you enjoy this 😊
