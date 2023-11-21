@@ -5,6 +5,7 @@ const ContactCard = ({
   index,
   handleChangeCurrentChat,
   drawerClose,
+  showDrawerOnSM,
   currentSelectedContact,
 }) => {
   return (
@@ -12,10 +13,9 @@ const ContactCard = ({
       className={`${
         index === currentSelectedContact ? "bg-solid-purple" : "bg-[#ffffff39]"
       } px-2 py-3 rounded-md flex items-center gap-4 mx-2 cursor-pointer duration-300`}
-      key={contact._id}
       onClick={() => {
         handleChangeCurrentChat(index, contact);
-        drawerClose();
+        showDrawerOnSM && drawerClose();
       }}
     >
       <div className="">

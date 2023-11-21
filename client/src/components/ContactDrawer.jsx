@@ -34,9 +34,10 @@ const ContactDrawer = ({
               {userContacts.map((contact, index) => (
                 <ContactCard
                   contact={contact}
-                  key={index}
+                  key={contact._id}
                   index={index}
                   drawerClose={close}
+                  showDrawerOnSM={true}
                   handleChangeCurrentChat={handleChangeCurrentChat}
                   currentSelectedContact={currentSelectedContact}
                 />
