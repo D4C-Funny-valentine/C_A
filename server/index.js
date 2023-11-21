@@ -37,7 +37,6 @@ io.on("connection", (socket) => {
   global.chatSocket = socket;
   socket.on("sendUser", (userId) => {
     onlineUsers.set(userId, socket.id);
-    console.log(userId, "connected");
   });
 
   socket.on("send-message", (data) => {
