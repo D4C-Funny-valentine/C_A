@@ -29,7 +29,7 @@ const Chat = () => {
 
   useEffect(() => {
     if (currentUser) {
-      socket.current = io.connect(host);
+      socket.current = io(host);
       socket.current.emit("sendUser", currentUser._id);
     }
     localStorage.setItem("user", JSON.stringify(currentUser));
