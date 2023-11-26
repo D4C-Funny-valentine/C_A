@@ -18,6 +18,7 @@ const MessageContainer = ({
   const [showDeleteButton, setShowDeleteButton] = useState(false);
   const [deleteMessageId, setDeleteMessageId] = useState(null);
   const [messageData, setMessageData] = useState(null);
+  const [userScrolled, setUserScrolled] = useState(false);
 
   useEffect(() => {
     const fetchMessages = async () => {
@@ -36,15 +37,6 @@ const MessageContainer = ({
   }, [chattingUser, currentUser, receive, messages]);
 
   const scrollRef = useRef();
-
-  // auto scroll to bottom when user messages are added
-  useEffect(() => {
-    scrollRef?.current?.scrollIntoView({
-      behavior: "smooth",
-      block: "end",
-      inline: "nearest",
-    });
-  }, [messages]);
 
   const handleDeleteMessage = async (messageId) => {
     try {
@@ -66,14 +58,41 @@ const MessageContainer = ({
     }
   };
 
+  const handleScroll = () => {
+    // Check if the user is at the bottom of the chat
+    const isAtBottom =
+      scrollRef.current.scrollHeight - scrollRef.current.scrollTop <=
+      scrollRef.current.clientHeight + 50;
+
+    // If the user has manually scrolled up, set the state accordingly
+    if (!isAtBottom) {
+      setUserScrolled(true);
+    } else {
+      // If the user is at the bottom, reset the state
+      setUserScrolled(false);
+    }
+  };
+
+  useEffect(() => {
+    // If the user has not manually scrolled, auto-scroll to the bottom
+    if (!userScrolled) {
+      scrollRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "end",
+        inline: "nearest",
+      });
+    }
+  }, [messageData]);
+
   return (
-    <div className="bg-dark-blue sm:bg-black/70 md:bg-black/70 lg:bg-black/70 w-full h-full overflow-scroll overflow-x-hidden overflow-y-scroll chat-container-scroll relative">
-      <div
-        className="w-full flex justify-end items-end flex-col mt-auto"
-        ref={scrollRef}
-      >
-        {messageData?.map((message) => (
-          <div className="w-full" key={message.id} ref={scrollRef}>
+    <div
+      onScroll={handleScroll}
+      ref={scrollRef}
+      className="bg-dark-blue sm:bg-black/70 md:bg-black/70 lg:bg-black/70 w-full h-full overflow-scroll overflow-x-hidden overflow-y-scroll chat-container-scroll relative"
+    >
+      <div className="w-full flex justify-end items-end flex-col mt-auto">
+        {messageData?.map((message, index) => (
+          <div className="w-full" key={message.id}>
             <div
               className={`message ${
                 message.isSender
@@ -131,7 +150,6 @@ const MessageContainer = ({
             </div>
           </div>
         ))}
-        <div className="" ref={scrollRef}></div>
       </div>
     </div>
   );
