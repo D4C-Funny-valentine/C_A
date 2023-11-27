@@ -20,6 +20,7 @@ const MessageContainer = ({
   const [deleteMessageId, setDeleteMessageId] = useState(null);
   const [messageData, setMessageData] = useState([]);
   const containerRef = useRef(null);
+  const [deleteMessageData, setDeleteMessageData] = useState();
 
   useEffect(() => {
     const fetchMessages = async () => {
@@ -34,8 +35,9 @@ const MessageContainer = ({
         console.log(error);
       }
     };
+    console.log("hi");
     fetchMessages();
-  }, [chattingUser, currentUser, receive, newMessage]);
+  }, [chattingUser, currentUser, receive, newMessage, deleteMessageData]);
 
   const handleDeleteMessage = async (messageId) => {
     try {
@@ -44,31 +46,35 @@ const MessageContainer = ({
         requester: currentUser._id,
       });
 
-      console.log(data);
-
       if (data?.success) {
         const updatedMessages = messages.filter(
           (message) => message.id !== messageId
         );
         setMessages(updatedMessages);
         setDeleteMessageId(null);
+        setDeleteMessageData(data.deleteMessage);
       }
     } catch (error) {
       console.log(error);
     }
   };
-
   useEffect(() => {
-    // Scroll to the bottom when a new message is received or sent
-    containerRef.current.scrollTop = containerRef.current.scrollHeight;
-  }, [receive, newMessage]);
+    // Calculate the total height by summing up the heights of each message
+    const totalHeight = Array.from(containerRef.current.children).reduce(
+      (acc, child) => acc + child.offsetHeight,
+      0
+    );
+
+    // Scroll to the bottom taking into account the total height
+    containerRef.current.scrollTop = totalHeight;
+  }, [messages, receive, newMessage]);
 
   return (
     <div
       ref={containerRef}
       className="bg-dark-blue sm:bg-black/70 md:bg-black/70 lg:bg-black/70 w-full h-full overflow-scroll overflow-x-hidden overflow-y-scroll chat-container-scroll relative"
     >
-      <div className="w-full flex justify-end items-end flex-col mt-auto">
+      <div className="w-full flex justify-end items-end flex-col mt-auto gap-2">
         {messageData?.map((message) => (
           <div className="w-full" key={message.id}>
             <div
