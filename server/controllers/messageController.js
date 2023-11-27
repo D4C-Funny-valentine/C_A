@@ -88,9 +88,11 @@ const deleteMessage = async (req, res) => {
     const deleteMessage = await Message.findByIdAndDelete(id);
 
     if (deleteMessage) {
-      return res
-        .status(200)
-        .json({ message: "Message deleted successfully", success: true });
+      return res.status(200).json({
+        message: "Message deleted successfully",
+        success: true,
+        deleteMessage: deleteMessage,
+      });
     }
     return res.status(400).json({
       message: "Failed to delete message from database",

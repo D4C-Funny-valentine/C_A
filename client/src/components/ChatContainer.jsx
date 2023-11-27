@@ -13,6 +13,7 @@ const ChatContainer = ({
   setPosition,
 }) => {
   const [addMessage] = useAddMessageMutation();
+  const [newMessage, setNewMessage] = useState();
   const [messages, setMessages] = useState([]);
   const [receive, setReceive] = useState(null);
 
@@ -37,6 +38,7 @@ const ChatContainer = ({
           senderId: currentUser._id,
         };
         const msgs = [...messages, newMsg];
+        setNewMessage(newMsg);
         setMessages(msgs);
       }
     } catch (error) {
@@ -47,7 +49,6 @@ const ChatContainer = ({
   useEffect(() => {
     if (socket.current) {
       socket.current.on("receive-message", (msg) => {
-        console.log(msg);
         setReceive({
           isSender: false,
           message: msg,
@@ -55,7 +56,7 @@ const ChatContainer = ({
         });
       });
     }
-  }, [messages]);
+  }, [chattingUser._id]);
 
   useEffect(() => {
     receive && setMessages((prev) => [...prev, receive]);
@@ -79,6 +80,7 @@ const ChatContainer = ({
             setMessages={setMessages}
             socket={socket}
             receive={receive}
+            newMessage={newMessage}
           />
           <ChatInput
             sendMessage={sendMessage}

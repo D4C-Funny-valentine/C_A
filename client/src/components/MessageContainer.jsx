@@ -5,6 +5,7 @@ import {
 } from "../redux/services/userApi";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import "./chat.css";
+import MessageDeleteButton from "./MessageDeleteButton";
 
 const MessageContainer = ({
   chattingUser,
@@ -12,13 +13,13 @@ const MessageContainer = ({
   messages,
   setMessages,
   receive,
+  newMessage,
 }) => {
   const [getAllMessages] = useGetAllMessagesMutation();
   const [deleteMessage] = useDeleteMessageMutation();
-  const [showDeleteButton, setShowDeleteButton] = useState(false);
   const [deleteMessageId, setDeleteMessageId] = useState(null);
-  const [messageData, setMessageData] = useState(null);
-  const [userScrolled, setUserScrolled] = useState(false);
+  const [messageData, setMessageData] = useState([]);
+  const containerRef = useRef(null);
 
   useEffect(() => {
     const fetchMessages = async () => {
@@ -34,9 +35,7 @@ const MessageContainer = ({
       }
     };
     fetchMessages();
-  }, [chattingUser, currentUser, receive, messages]);
-
-  const scrollRef = useRef();
+  }, [chattingUser, currentUser, receive, newMessage]);
 
   const handleDeleteMessage = async (messageId) => {
     try {
@@ -45,12 +44,13 @@ const MessageContainer = ({
         requester: currentUser._id,
       });
 
+      console.log(data);
+
       if (data?.success) {
         const updatedMessages = messages.filter(
           (message) => message.id !== messageId
         );
         setMessages(updatedMessages);
-        setShowDeleteButton(false);
         setDeleteMessageId(null);
       }
     } catch (error) {
@@ -58,47 +58,25 @@ const MessageContainer = ({
     }
   };
 
-  const handleScroll = () => {
-    // Check if the user is at the bottom of the chat
-    const isAtBottom =
-      scrollRef.current.scrollHeight - scrollRef.current.scrollTop <=
-      scrollRef.current.clientHeight + 50;
-
-    // If the user has manually scrolled up, set the state accordingly
-    if (!isAtBottom) {
-      setUserScrolled(true);
-    } else {
-      // If the user is at the bottom, reset the state
-      setUserScrolled(false);
-    }
-  };
-
   useEffect(() => {
-    // If the user has not manually scrolled, auto-scroll to the bottom
-    if (!userScrolled) {
-      scrollRef.current.scrollIntoView({
-        behavior: "smooth",
-        block: "end",
-        inline: "nearest",
-      });
-    }
-  }, [messageData]);
+    // Scroll to the bottom when a new message is received or sent
+    containerRef.current.scrollTop = containerRef.current.scrollHeight;
+  }, [receive, newMessage]);
 
   return (
     <div
-      onScroll={handleScroll}
-      ref={scrollRef}
+      ref={containerRef}
       className="bg-dark-blue sm:bg-black/70 md:bg-black/70 lg:bg-black/70 w-full h-full overflow-scroll overflow-x-hidden overflow-y-scroll chat-container-scroll relative"
     >
       <div className="w-full flex justify-end items-end flex-col mt-auto">
-        {messageData?.map((message, index) => (
+        {messageData?.map((message) => (
           <div className="w-full" key={message.id}>
             <div
               className={`message ${
                 message.isSender
                   ? "sended justify-end"
                   : "received justify-start"
-              } w-full flex p-2.5 items-center`}
+              } w-full flex items-center`}
             >
               <div
                 className={`flex items-center ${
@@ -106,30 +84,12 @@ const MessageContainer = ({
                 } w-full`}
               >
                 {currentUser._id === message.senderId && (
-                  <div
-                    className={`flex-1 justify-end flex items-center relative 
-                    }`}
-                  >
-                    <BsThreeDotsVertical
-                      size={18}
-                      color="white"
-                      onClick={() => {
-                        setShowDeleteButton(!showDeleteButton);
-                        setDeleteMessageId(message.id);
-                      }}
-                      className="cursor-pointer"
-                    />
-                    <div
-                      className={`p-2 bg-[#2600ff34] absolute right-5 cursor-pointer ${
-                        showDeleteButton && deleteMessageId === message.id
-                          ? "opacity-100"
-                          : "opacity-0"
-                      } duration-300`}
-                      onClick={() => handleDeleteMessage(message.id)}
-                    >
-                      <p className="text-white text-sm">Delete</p>
-                    </div>
-                  </div>
+                  <MessageDeleteButton
+                    deleteMessageId={deleteMessageId}
+                    setDeleteMessageId={setDeleteMessageId}
+                    handleDeleteMessage={handleDeleteMessage}
+                    message={message}
+                  />
                 )}
                 <div className="max-w-[40%]">
                   <div
