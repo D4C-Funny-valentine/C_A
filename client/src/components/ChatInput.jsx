@@ -4,6 +4,8 @@ import { IoMdSend } from "react-icons/io";
 import { FaMicrophoneAlt } from "react-icons/fa";
 import { BsEmojiSmileFill } from "react-icons/bs";
 import "./chat.css";
+import Lottie from "lottie-react";
+import typing from "../assets/typing.json";
 
 const ChatInput = ({ sendMessage, socket, chattingUser }) => {
   const [emojiHideShow, setEmojiHideShow] = useState(false);
@@ -66,7 +68,11 @@ const ChatInput = ({ sendMessage, socket, chattingUser }) => {
   return (
     <div className="flex w-full mt-auto flex-col">
       <div className="text-white text-sm">
-        {isTyping ? <h3 className="ml-2">typing ...</h3> : null}
+        {isTyping ? (
+          <div className="w-12 flex justify-center items-center ml-2">
+            <Lottie animationData={typing} loop={true} size={2} />
+          </div>
+        ) : null}
       </div>
       <div className="flex h-full w-full items-center justify-center">
         <div className="w-[13%] sm:w-[13%] md:w-[10%] lg:w-[5%] flex justify-center items-center relative">

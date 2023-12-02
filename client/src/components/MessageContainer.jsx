@@ -35,7 +35,6 @@ const MessageContainer = ({
         console.log(error);
       }
     };
-    console.log("hi");
     fetchMessages();
   }, [chattingUser, currentUser, receive, newMessage, deleteMessageData]);
 
